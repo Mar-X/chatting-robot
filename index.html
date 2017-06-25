@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>哆啦A梦的回应</title>
+
+    <!-- Bootstrap -->
+    <link href="lib/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    <style>
+        html,
+        body {
+            width: 100%;
+            /*height: 100%;*/
+            background: url(img/ChMkJlbKxwuIWZ6LAAJoMxCyzdMAALHuQCxkksAAmhL823.jpg)no-repeat center center;
+            background-size: cover;
+        }
+        
+        .box {
+            width: 650px;
+            height: 550px;
+            margin: 100px auto;
+            /*background-color: rgba(0, 0, 0, .8);*/
+        }
+        
+        .box-center {
+            height: 350px;
+            overflow-y: scroll;
+        }
+        
+        .text,
+        .textBtn {
+            margin-top: 10px;
+            width: 100%;
+            font-size: 30px;
+        }
+        
+        .text {
+            height: 60px;
+        }
+        
+        .media img {
+            width: 100px;
+        }
+        
+        .media p {
+            font-size: 20px;
+        }
+        
+        .mright {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="panel panel-default box">
+                <div class="panel-heading">
+                    <h3>来自哆啦A梦的短信</h3>
+                </div>
+                <div class="panel-body box-center">
+                    <div class="media someOne">
+                        <div class="media-body mright">
+                            <h3 class="media-heading">我</h3>
+                            <p>哈喽，哆啦A梦。</p>
+                        </div>
+                        <div class="media-right">
+                            <a href="#">
+                                <img class="media-object" src="img/u=1225023026,1640070365&fm=23&gp=0.jpg" alt="...">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="media sister">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="img/u=1338073945,3968184820&fm=11&gp=0.jpg" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body mleft">
+                            <h3 class="media-heading">哆啦A梦</h3>
+                            <p>好久不见啊，我的主人。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="text" class="text">
+                    <input type="button" class="btn btn-info textBtn" value="发送">
+                </div>
+                <!--<input type="button" value='接口测试'>-->
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="lib/js/jquery-1.12.4.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="lib/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.textBtn').click(function() {
+
+            // 创建克隆窗口
+            var kl = $('.someOne').first().clone();
+            kl.find('p').html($('.text').val());
+            // 添加到页面中
+            $('.panel-body').append(kl);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', 'http://www.tuling123.com/openapi/api');
+            // post 发送数据
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            // 回调函数
+            xhr.onload = function() {
+                    console.log(xhr.responseText);
+                    var obj = JSON.parse(xhr.responseText);
+                    var box = $('.sister').first().clone();
+                    box.find('p').html(obj.text);
+                    $('.panel-body').append(box)
+                }
+                // 发送数据
+            xhr.send('key=75f2cfa36647404eb8a0158f734c1234&info=' + $('.text').val());
+            // 清空发送栏
+            $('.text').val('');
+        })
+    })
+</script>
