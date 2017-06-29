@@ -112,9 +112,15 @@
 <script src="lib/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function() {
-        $('.textBtn').click(function() {
-
-            // 创建克隆窗口
+        $(window).on("keydown", function(e) {
+            console.log(e.keyCode)
+            if (e.keyCode === 13 || e.keyCode === 32) {
+                $('.textBtn').click()
+            };
+        });
+        $('.textBtn').on("click", function(e) {
+            console.log(e.keyCode)
+                // 创建克隆窗口
             var kl = $('.someOne').first().clone();
             kl.find('p').html($('.text').val());
             // 添加到页面中
@@ -136,6 +142,8 @@
             xhr.send('key=75f2cfa36647404eb8a0158f734c1234&info=' + $('.text').val());
             // 清空发送栏
             $('.text').val('');
+
         })
+
     })
 </script>
